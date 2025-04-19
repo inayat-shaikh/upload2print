@@ -7,6 +7,41 @@
     <title>Lab File Upload System</title>
     <link href="https://cdn.jsdelivr.net/npm/flowbite@3.1.2/dist/flowbite.min.css" rel="stylesheet" />
     <style>
+        /* Additional styles from index2.html */
+        #department-button,
+        #subject-button,
+        #experimentNo-button {
+            border-radius: 25px;
+        }
+
+        #department-menu,
+        #subject-menu,
+        #experimentNo-menu {
+            border-radius: 25px;
+            margin-top: 0.25rem;
+            /* mt-1 */
+        }
+
+        #department-search,
+        #subject-search,
+        #experiment-search {
+            border-radius: 25px;
+        }
+
+        #department-options .dropdown-option,
+        #subject-options .dropdown-option,
+        #experimentNo-options .dropdown-option {
+            border-radius: 25px;
+        }
+
+        #rollNumber {
+            border-radius: 25px;
+        }
+
+        #dropzone-container label {
+            border-radius: 35px;
+        }
+
         /* Custom styles for circular progress bar */
         .circular-progress {
             position: relative;
@@ -41,6 +76,114 @@
             font-weight: bold;
             color: #3b82f6;
         }
+
+        /* Custom styles for dropdown with search */
+        .custom-dropdown {
+            position: relative;
+            width: 100%;
+        }
+
+        .dropdown-button {
+            width: 100%;
+            text-align: left;
+            background-color: #f9fafb;
+            border: 1px solid #d1d5db;
+            padding: 0.625rem 1rem;
+            border-radius: 0.375rem;
+            cursor: pointer;
+        }
+
+        .dark .dropdown-button {
+            background-color: #374151;
+            border-color: #4b5563;
+            color: #fff;
+        }
+
+        .dropdown-menu {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            right: 0;
+            z-index: 10;
+            background-color: #fff;
+            border: 1px solid #d1d5db;
+            border-radius: 0.375rem;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            max-height: 200px;
+            overflow-y: auto;
+            padding: 0.5rem;
+        }
+
+        .dark .dropdown-menu {
+            background-color: #1f2937;
+            border-color: #4b5563;
+            color: #fff;
+        }
+
+        .dropdown-search {
+            width: 100%;
+            padding: 0.5rem;
+            padding-left: 2rem;
+            border: 1px solid #d1d5db;
+            border-radius: 0.375rem;
+            margin-bottom: 0.5rem;
+            background: url('data:image/svg+xml;utf8,<svg class="w-4 h-4 text-gray-500" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20"><path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"/></svg>') no-repeat 0.5rem center;
+            background-size: 1rem;
+        }
+
+        .dark .dropdown-search {
+            background-color: #374151;
+            border-color: #4b5563;
+            color: #fff;
+            background-image: url('data:image/svg+xml;utf8,<svg class="w-4 h-4 text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20"><path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"/></svg>');
+        }
+
+        .dropdown-option {
+            padding: 0.5rem 1rem;
+            cursor: pointer;
+        }
+
+        .dropdown-option:hover {
+            background-color: #f3f4f6;
+        }
+
+        .dark .dropdown-option:hover {
+            background-color: #4b5563;
+        }
+
+        /* Toggle button animations */
+        .toggle-wrapper {
+            position: relative;
+            transition: background-color 0.3s ease-in-out;
+        }
+
+        .peer:checked~.toggle-wrapper {
+            animation: toggle-on 0.4s ease forwards;
+        }
+
+        @keyframes toggle-on {
+            0% {
+                transform: scale(0.9);
+                background-color: #4f46e5;
+                /* Initial blue tone */
+            }
+
+            50% {
+                transform: scale(1.1);
+                background-color: #2563eb;
+                /* Brightened blue */
+            }
+
+            100% {
+                transform: scale(1);
+                background-color: #3b82f6;
+                /* Final blue tone */
+            }
+        }
+
+        .peer:not(:checked)~.toggle-wrapper {
+            animation: toggle-off 0.4s ease forwards;
+        }
     </style>
 </head>
 
@@ -60,9 +203,9 @@
             </a>
             <h1
                 class="mb-4 text-4xl font-extrabold tracking-tight leading-none text-gray-900 md:text-5xl lg:text-6xl dark:text-white">
-                Welcome to Upload2Print !</h1>
-            <p class="mb-8 text-lg font-normal text-gray-500 lg:text-xl sm:px-16 lg:px-48 dark:text-gray-200">No
-                Whatsapp Login Hint, Just Upload2Print ;:)</p>
+                Welcome to CUPS !</h1>
+            <p class="mb-8 text-lg font-normal text-gray-500 lg:text-xl sm:px-16 lg:px-48 dark:text-gray-200">
+                Centralized Upload & Print System</p>
             <form id="uploadForm" enctype="multipart/form-data" target="hidden_iframe" class="w-full mx-auto"
                 style="max-width: 85%;">
                 <div class="relative">
@@ -70,58 +213,165 @@
                         <div>
                             <label for="department"
                                 class="block mb-2 text-base font-medium text-gray-900 dark:text-white">Department</label>
-                            <select id="department" name="department" required
-                                class="bg-gray-50 border border-gray-300 text-gray-900 text-sdefaultm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
-                                <option value="" disabled selected>Select Department & Division</option>
-                                <option value="AI&DS-A">AI & DS - A</option>
-                                <option value="AI&DS-B">AI & DS - B</option>
-                            </select>
+                            <div class="custom-dropdown">
+                                <button type="button" id="department-button" class="dropdown-button">Select Department &
+                                    Division</button>
+                                <div id="department-menu" class="dropdown-menu hidden">
+                                    <input type="text" id="department-search" class="dropdown-search"
+                                        placeholder="Search Departments...">
+                                    <div id="department-options">
+                                        <div class="dropdown-option" data-value="AI&DS-A">AI & DS - A</div>
+                                        <div class="dropdown-option" data-value="AI&DS-B">AI & DS - B</div>
+                                    </div>
+                                </div>
+                                <input type="hidden" id="department" name="department" required autocomplete="off">
+                            </div>
                         </div>
                         <div>
                             <label for="subject"
-                                class="block mb-2 text-base font-medium text-gray-900 dark:text-white">subject</label>
-                            <select id="subject" name="subject" required
-                                class="bg-gray-50 border border-gray-300 text-gray-900 text-sdefaultm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
-                                <option value="" disabled selected>Select Subject</option>
-                                <option value="DAA">DAA</option>
-                                <option value="IAI">IAI</option>
-                                <option value="MATHS">MATHS</option>
-                                <option value="OS">OS</option>
-                            </select>
+                                class="block mb-2 text-base font-medium text-gray-900 dark:text-white">Subject</label>
+                            <div class="custom-dropdown">
+                                <button type="button" id="subject-button" class="dropdown-button">Select
+                                    Subject</button>
+                                <div id="subject-menu" class="dropdown-menu hidden">
+                                    <input type="text" id="subject-search" class="dropdown-search"
+                                        placeholder="Search Subjects...">
+                                    <div id="subject-options">
+                                        <div class="dropdown-option" data-value="DAA">DAA</div>
+                                        <div class="dropdown-option" data-value="IAI">IAI</div>
+                                        <div class="dropdown-option" data-value="MATHS">MATHS</div>
+                                        <div class="dropdown-option" data-value="OS">OS</div>
+                                    </div>
+                                </div>
+                                <input type="hidden" id="subject" name="subject" required autocomplete="off">
+                            </div>
                         </div>
                         <div>
                             <label for="rollNumber"
-                                class="block mb-2 text-base font-medium text-gray-900 dark:text-white">rollNumber</label>
-                            <input type="text" name="rollNumber" id="rollNumber"
+                                class="block mb-2 text-base font-medium text-gray-900 dark:text-white">Roll
+                                Number</label>
+                            <input type="number" name="rollNumber" id="rollNumber"
                                 class="bg-gray-50 border border-gray-300 text-gray-900 text-base rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                                 placeholder="" required>
                         </div>
                         <div>
                             <label for="experimentNo"
-                                class="block mb-2 text-base font-medium text-gray-900 dark:text-white">experimentNo</label>
-                            <select id="experimentNo" name="experimentNo" required
-                                class="bg-gray-50 border border-gray-300 text-gray-900 text-sdefaultm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
-                                <option value="" disabled selected>Select Experiment Number</option>
-                                <option value="EXP1">EXP1</option>
-                                <option value="EXP2">EXP2</option>
-                                <option value="EXP3">EXP3</option>
-                                <option value="EXP4">EXP4</option>
-                                <option value="EXP5">EXP5</option>
-                                <option value="EXP6">EXP6</option>
-                                <option value="EXP7">EXP7</option>
-                                <option value="EXP8">EXP8</option>
-                                <option value="EXP9">EXP9</option>
-                                <option value="EXP10">EXP10</option>
-                            </select>
+                                class="block mb-2 text-base font-medium text-gray-900 dark:text-white">Experiment
+                                No</label>
+                            <div class="custom-dropdown">
+                                <button type="button" id="experimentNo-button" class="dropdown-button">Select Experiment
+                                    Number</button>
+                                <div id="experimentNo-menu" class="dropdown-menu hidden">
+                                    <input type="text" id="experiment-search" class="dropdown-search"
+                                        placeholder="Search Experiments...">
+                                    <div id="experimentNo-options">
+                                        <div class="dropdown-option" data-value="EXP1">EXP1</div>
+                                        <div class="dropdown-option" data-value="EXP2">EXP2</div>
+                                        <div class="dropdown-option" data-value="EXP3">EXP3</div>
+                                        <div class="dropdown-option" data-value="EXP4">EXP4</div>
+                                        <div class="dropdown-option" data-value="EXP5">EXP5</div>
+                                        <div class="dropdown-option" data-value="EXP6">EXP6</div>
+                                        <div class="dropdown-option" data-value="EXP7">EXP7</div>
+                                        <div class="dropdown-option" data-value="EXP8">EXP8</div>
+                                        <div class="dropdown-option" data-value="EXP9">EXP9</div>
+                                        <div class="dropdown-option" data-value="EXP10">EXP10</div>
+                                        <div class="dropdown-option" data-value="OTHERS">OTHERS</div>
+                                    </div>
+                                </div>
+                                <input type="hidden" id="experimentNo" name="experimentNo" required autocomplete="off">
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Centered PIN container -->
+                    <div class="pin-container flex justify-center">
+                        <div>
+                            <label class="mb-5 inline-flex items-center cursor-pointer">
+                                <input type="checkbox" id="pinToggle" class="sr-only peer">
+                                <div
+                                    class="toggle-wrapper relative w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-transform after:duration-300 dark:border-gray-600 peer-checked:bg-blue-600 dark:peer-checked:bg-blue-600">
+                                </div>
+                                <span class="ms-3 text-base font-medium text-gray-900 dark:text-gray-300">Set Pin To
+                                    Open File?</span>
+                            </label>
+                            <div id="pinInput" class="pin-input mb-5" style="display: none;">
+                                <form id="pinForm" class="max-w-sm mx-auto">
+                                    <div class="flex mb-2 space-x-4 rtl:space-x-reverse">
+                                        <div>
+                                            <label for="code-1" class="sr-only">First code</label>
+                                            <input type="text" maxlength="1" id="code-1"
+                                                class="pininputbox block w-12 h-12 py-3 text-xl font-bold text-center text-gray-900 bg-white border border-gray-300 rounded-lg focus:ring-primary-500 focus:border-primary-500 transition-transform duration-200 scale-100 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                                                required autocomplete="off" />
+                                        </div>
+                                        <div>
+                                            <label for="code-2" class="sr-only">Second code</label>
+                                            <input type="text" maxlength="1" id="code-2"
+                                                class="pininputbox block w-12 h-12 py-3 text-xl font-bold text-center text-gray-900 bg-white border border-gray-300 rounded-lg focus:ring-primary-500 focus:border-primary-500 transition-transform duration-200 scale-100 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                                                required autocomplete="off" />
+                                        </div>
+                                        <div>
+                                            <label for="code-3" class="sr-only">Third code</label>
+                                            <input type="text" maxlength="1" id="code-3"
+                                                class="pininputbox block w-12 h-12 py-3 text-xl font-bold text-center text-gray-900 bg-white border border-gray-300 rounded-lg focus:ring-primary-500 focus:border-primary-500 transition-transform duration-200 scale-100 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                                                required autocomplete="off" />
+                                        </div>
+                                        <div>
+                                            <label for="code-4" class="sr-only">Fourth code</label>
+                                            <input type="text" maxlength="1" id="code-4"
+                                                class="pininputbox block w-12 h-12 py-3 text-xl font-bold text-center text-gray-900 bg-white border border-gray-300 rounded-lg focus:ring-primary-500 focus:border-primary-500 transition-transform duration-200 scale-100 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                                                required autocomplete="off" />
+                                        </div>
+                                    </div>
+                                    <p id="helper-text-explanation"
+                                        class="mt-2 text-base text-gray-500 dark:text-gray-400">
+                                        Enter Your 4-digit PIN
+                                    </p>
+                                </form>
+                            </div>
                         </div>
                     </div>
 
-                    <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white" for="fileInput">Upload
-                        file</label>
+                    <ul
+                        class="mb-3 items-center text-sm font-medium text-gray-900 bg-white border border-gray-200 rounded-lg sm:flex dark:bg-gray-700 dark:border-gray-600 dark:text-white">
+                        <li class="w-full border-b border-gray-200 sm:border-b-0 sm:border-r dark:border-gray-600">
+                            <div class="flex items-center ps-3">
+                                <input checked id="DocLink" type="radio" value="" name="list-radio"
+                                    class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500">
+                                <label for="DocLink"
+                                    class="w-full py-3 ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">Google
+                                    Doc Link</label>
+                            </div>
+                        </li>
+                        <li class="w-full border-b border-gray-200 sm:border-b-0 sm:border-r dark:border-gray-600">
+                            <div class="flex items-center ps-3">
+                                <input id="fileInputRadio" type="radio" value="" name="list-radio"
+                                    class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500">
+                                <label for="fileInputRadio"
+                                    class="w-full py-3 ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">File
+                                    Input</label>
+                            </div>
+                        </li>
+                    </ul>
 
+                    <!--------Document Link------------>
+                    <div id="DocLinkDiv" class="flex justify-center mb-4">
+                        <span
+                            class="inline-flex items-center px-3 text-base text-gray-900 bg-gray-200 border rounded-e-0 border-gray-300 border-e-0 rounded-s-md dark:bg-gray-600 dark:text-gray-400 dark:border-gray-600">
+                            <svg class="w-5 h-5 text-gray-800 dark:text-white" aria-hidden="true"
+                                xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none"
+                                viewBox="0 0 24 24">
+                                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                                    stroke-width="2"
+                                    d="M13.213 9.787a3.391 3.391 0 0 0-4.795 0l-3.425 3.426a3.39 3.39 0 0 0 4.795 4.794l.321-.304m-.321-4.49a3.39 3.39 0 0 0 4.795 0l3.424-3.426a3.39 3.39 0 0 0-4.794-4.795l-1.028.961" />
+                            </svg>
+                        </span>
+                        <input type="text" id="DocLinkInput"
+                            class="rounded-none rounded-e-lg bg-gray-50 border text-gray-900 focus:ring-blue-500 focus:border-blue-500 block flex-1 min-w-0 text-base border-gray-300 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                            placeholder="" style="max-width: 500px;" autocomplete="off">
+                    </div>
                     <!-- New Drag & Drop File Input -->
-                    <div id="dropzone-container" class="flex items-center justify-center w-full mb-4">
-                        <label for="fileInput"
+                    <div id="dropzone-container" class="flex items-center justify-center w-full mb-4"
+                        style="display: none;">
+                        <label for="fileInputElement"
                             class="flex flex-col items-center justify-center w-full h-64 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 dark:hover:bg-gray-800 dark:bg-gray-700 hover:bg-gray-100 dark:border-gray-600 dark:hover:border-gray-500 dark:hover:bg-gray-600">
                             <div id="dropzone-content" class="flex flex-col items-center justify-center pt-5 pb-6">
                                 <svg class="w-8 h-8 mb-4 text-gray-500 dark:text-gray-400" aria-hidden="true"
@@ -132,8 +382,7 @@
                                 </svg>
                                 <p class="mb-2 text-sm text-gray-500 dark:text-gray-400"><span
                                         class="font-semibold">Click to upload</span> or drag and drop</p>
-                                <p class="text-xs text-gray-500 dark:text-gray-400">PDF, DOC, DOCX, or other document
-                                    formats</p>
+                                <p class="text-xs text-gray-500 dark:text-gray-400">DOC, DOCX, or PDF only</p>
                             </div>
                             <div id="file-info" class="hidden flex items-center justify-center w-full p-4">
                                 <div class="flex flex-col items-center">
@@ -148,7 +397,8 @@
                                     <p id="file-size" class="text-xs text-gray-500 dark:text-gray-400"></p>
                                 </div>
                             </div>
-                            <input type="file" name="fileInput" id="fileInput" class="hidden" />
+                            <input type="file" name="fileInput" id="fileInputElement" class="hidden"
+                                accept=".doc,.docx,.pdf" />
                         </label>
                     </div>
 
@@ -177,7 +427,6 @@
         class="bg-white dark:bg-gray-900 bg-[url('https://flowbite.s3.amazonaws.com/docs/jumbotron/hero-pattern.svg')] dark:bg-[url('https://flowbite.s3.amazonaws.com/docs/jumbotron/hero-pattern-dark.svg')] h-screen w-full fixed top-0 left-0 flex items-center justify-center z-50">
         <div class="py-8 px-4 mx-auto max-w-screen-xl text-center z-10 relative">
             <h2 class="mb-8 text-2xl font-bold text-gray-900 dark:text-white">Uploading Your File</h2>
-
             <!-- Circular Progress Bar -->
             <div class="circular-progress">
                 <svg width="150" height="150" viewBox="0 0 150 150">
@@ -187,8 +436,10 @@
                 </svg>
                 <div class="progress-text" id="progressStatus">0%</div>
             </div>
-
-            <p class="mt-8 text-lg text-gray-500 dark:text-gray-300">Please wait while your file is being uploaded...
+            <p id="fileAccessMessage" class="mt-8 text-lg text-gray-500 dark:text-gray-300" style="display: none;"><span
+                    class="bg-blue-100 rounded-full text-blue-800 text-sm font-medium me-2 px-2.5 py-0.5 rounded dark:bg-blue-900 dark:text-gray-200 ms-3">Make
+                    Sure File Access is "Anyone With The Link"</span></p>
+            <p class="mt-2 text-lg text-gray-500 dark:text-gray-300">Please wait while your file is being uploaded...
             </p>
         </div>
         <div
@@ -201,8 +452,8 @@
         class="fixed z-50 inset-0 overflow-y-auto flex items-center justify-center p-4" aria-labelledby="modal-title"
         role="dialog" aria-modal="true">
         <div class="w-full max-w-sm sm:max-w-md mx-2 sm:mx-0">
-            <div style="background: rgba(0, 0, 0, 0.441); backdrop-filter: blur(9px);
--webkit-backdrop-filter: blur(15.9px);" class="fixed inset-0 transition-opacity" aria-hidden="true"></div>
+            <div style="background: rgba(0, 0, 0, 0.441); backdrop-filter: blur(9px); -webkit-backdrop-filter: blur(15.9px);"
+                class="fixed inset-0 transition-opacity" aria-hidden="true"></div>
             <div style="border-radius: 50px;"
                 class="bg-white dark:bg-gray-700 rounded-lg overflow-hidden shadow-xl transform transition-all w-full">
                 <!-- Modal header with close button -->
@@ -220,19 +471,28 @@
                 </div>
                 <!-- Modal body -->
                 <div class="p-3 md:p-5 space-y-4 text-center">
-                    <p class="text-base leading-relaxed text-gray-700 dark:text-white">Your File Has Been Uploaded
-                        successfully!<br>
+                    <p class="text-base leading-relaxed text-gray-700 dark:text-white">
+                        Your File Has Been Uploaded successfully!<br>
+                        <span class="text-green-600 dark:text-green-300 font-medium me-2 px-1.5 py-0.5 rounded">
+                            File ID: <span id="file-id"></span>
+                        </span><br>
                         File Renamed: <span id="renamed-file"
                             class="text-blue-600 dark:text-blue-300 font-medium"></span><br>
-                        <span class="text-blue-600 dark:text-blue-300 font-medium me-2 px-1.5 py-0.5 rounded">File ID:
-                            <span id="file-id"></span>
+                        Roll Number: <span id="displayRollNumber"
+                            class="text-blue-600 dark:text-blue-300 font-medium"></span><br>
+                        <span id="pin-container" style="display: none;">
+                            4 digit Pin: <span id="displayLastPin"
+                                class="text-blue-600 dark:text-blue-300 font-medium"></span>
+                        </span>
+                        <span id="modalFileAccessMessage" style="display: none;"
+                            class="mt-5 text-yellow-600 dark:text-yellow-500 text-sm">
+                            <i>Make Sure Your Google Doc Link Has An Access "Anyone With The Link"</i>
                         </span>
                     </p>
                     <div
                         class="flex flex-col sm:flex-row justify-center items-center space-y-2 sm:space-y-0 sm:space-x-4">
-                        <button data-modal-hide="popup-modal" type="button" id="okButton"
-                            style="border-radius: 20px; font-size: 18px;"
-                            class="text-white bg-green-700 hover:bg-green-800 focus:outline-none focus:ring-4 focus:ring-green-300 font-medium text-sm px-5 py-2.5 text-center mb-2 dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800 inline-flex items-center">
+                        <button data-modal-hide popup-modal type="button" id="okButton"
+                            class="text-white bg-green-700 hover:bg-green-800 focus:outline-none focus:ring-4 focus:ring-green-300 font-medium rounded-full text-base px-5 py-2.5 text-center me-2 mb-2 dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800 inline-flex items-center">
                             OK
                         </button>
                     </div>
@@ -241,307 +501,9 @@
         </div>
     </div>
 
-    <script src="https://unpkg.com/@dotlottie/player-component@latest/dist/dotlottie-player.mjs" type="module"></script>
-    <script>
-        document.addEventListener('DOMContentLoaded', function () {
-            // Define file ID generator function at the top level
-            const generateFileId = () => {
-                const randomNum = Math.floor(Math.random() * 10000); // 0 to 9999
-                return "S" + randomNum.toString().padStart(4, "0"); // ensures 4 digits
-            };
-
-            const form = document.getElementById('uploadForm');
-            const inputFormSection = document.getElementById('inputFormSection');
-            const uploadingSection = document.getElementById('uploadingSection');
-            const successSection = document.getElementById('success');
-            const circleProgress = document.querySelector('.circle-progress');
-            const progressStatus = document.getElementById('progressStatus');
-            const renamedFileElement = document.getElementById('renamed-file');
-            const fileIdElement = document.getElementById('file-id');
-            const uploadButton = document.getElementById('uploadButton');
-            const fileInput = document.getElementById('fileInput');
-            const dropzoneContainer = document.getElementById('dropzone-container');
-            const dropzoneContent = document.getElementById('dropzone-content');
-            const fileInfo = document.getElementById('file-info');
-            const fileName = document.getElementById('file-name');
-            const fileSize = document.getElementById('file-size');
-            const hiddenIframe = document.getElementById('hidden_iframe');
-            const okButton = document.getElementById('okButton');
-
-            // Calculate circle circumference
-            const circleRadius = 65;
-            const circumference = 2 * Math.PI * circleRadius;
-            circleProgress.setAttribute('stroke-dasharray', circumference);
-            circleProgress.setAttribute('stroke-dashoffset', circumference);
-
-            // Replace this with your Google Apps Script Web App URL
-            const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbw6AlbgUPkdsul6Xh3asyvOacesyA_W4ghTjMl7j3DFW8S8jd-hbjOp8B-JZE11ZSg/exec';
-
-            // Set the form action to the script URL
-            form.action = SCRIPT_URL;
-            form.method = 'POST';
-
-            // Handle file selection and display file info
-            function handleFileSelection(file) {
-                if (file) {
-                    // Format file size
-                    const sizeInKB = file.size / 1024;
-                    const formattedSize = sizeInKB > 1024
-                        ? (sizeInKB / 1024).toFixed(2) + ' MB'
-                        : sizeInKB.toFixed(2) + ' KB';
-
-                    // Update file info display
-                    fileName.textContent = file.name;
-                    fileSize.textContent = formattedSize;
-
-                    // Show file info, hide dropzone content
-                    dropzoneContent.classList.add('hidden');
-                    fileInfo.classList.remove('hidden');
-                }
-            }
-
-            // Listen for file input change
-            fileInput.addEventListener('change', function (e) {
-                if (this.files.length > 0) {
-                    handleFileSelection(this.files[0]);
-                }
-            });
-
-            // Setup drag and drop functionality
-            ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
-                dropzoneContainer.addEventListener(eventName, preventDefaults, false);
-            });
-
-            function preventDefaults(e) {
-                e.preventDefault();
-                e.stopPropagation();
-            }
-
-            // Add highlighting when dragging over
-            ['dragenter', 'dragover'].forEach(eventName => {
-                dropzoneContainer.addEventListener(eventName, highlight, false);
-            });
-
-            ['dragleave', 'drop'].forEach(eventName => {
-                dropzoneContainer.addEventListener(eventName, unhighlight, false);
-            });
-
-            function highlight() {
-                dropzoneContainer.classList.add('border-blue-500');
-                dropzoneContainer.classList.add('bg-blue-50');
-                dropzoneContainer.classList.add('dark:bg-gray-600');
-            }
-
-            function unhighlight() {
-                dropzoneContainer.classList.remove('border-blue-500');
-                dropzoneContainer.classList.remove('bg-blue-50');
-                dropzoneContainer.classList.remove('dark:bg-gray-600');
-            }
-
-            // Handle dropped files
-            dropzoneContainer.addEventListener('drop', handleDrop, false);
-
-            function handleDrop(e) {
-                const dt = e.dataTransfer;
-                const files = dt.files;
-
-                if (files.length > 0) {
-                    fileInput.files = files;
-                    handleFileSelection(files[0]);
-                }
-            }
-
-            // Update circular progress bar
-            function updateProgress(percent) {
-                // Update the stroke-dashoffset to show progress
-                const offset = circumference - (percent / 100) * circumference;
-                circleProgress.style.strokeDashoffset = offset;
-                progressStatus.textContent = `${percent}%`;
-            }
-
-            // Listen for iframe load event to get the response
-            hiddenIframe.addEventListener('load', function () {
-                try {
-                    const iframeContent = hiddenIframe.contentDocument || hiddenIframe.contentWindow.document;
-                    const responseText = iframeContent.body.innerText;
-
-                    if (responseText) {
-                        const response = JSON.parse(responseText);
-
-                        if (response.success) {
-                            // Update progress to 100%
-                            updateProgress(100);
-
-                            // Get file details for success modal
-                            const department = document.getElementById('department').value;
-                            const subject = document.getElementById('subject').value;
-                            const rollNumber = document.getElementById('rollNumber').value;
-                            const experimentNo = document.getElementById('experimentNo').value;
-                            const file = fileInput.files[0];
-                            const fileExtension = getFileExtension(file.name);
-                            const fileId = response.fileId || form.dataset.fileId || "Unknown";
-
-                            // Set success modal content
-                            const renamedFileName = `${rollNumber}_${experimentNo}_${subject} [${fileId}]${fileExtension}`;
-                            renamedFileElement.textContent = renamedFileName;
-                            fileIdElement.textContent = fileId;
-
-                            // Hide uploading section, show success modal
-                            uploadingSection.style.display = 'none';
-                            inputFormSection.style.display = 'block';
-                            successSection.style.display = 'flex';
-                        } else {
-                            // If there's an error, revert to input form
-                            uploadingSection.style.display = 'none';
-                            inputFormSection.style.display = 'block';
-                            alert(`Error: ${response.error || 'Unknown error'}`);
-                        }
-                    } else {
-                        // If we can't get the response text, assume success for demo
-                        updateProgress(100);
-
-                        // Get file details for success modal
-                        const department = document.getElementById('department').value;
-                        const subject = document.getElementById('subject').value;
-                        const rollNumber = document.getElementById('rollNumber').value;
-                        const experimentNo = document.getElementById('experimentNo').value;
-                        const file = fileInput.files[0];
-                        const fileExtension = getFileExtension(file.name);
-                        const fileId = form.dataset.fileId || "Generated"; // Use stored ID
-
-                        // Set success modal content
-                        const renamedFileName = `${rollNumber}_${experimentNo}_${subject} [${fileId}]${fileExtension}`;
-                        renamedFileElement.textContent = renamedFileName;
-                        fileIdElement.textContent = fileId;
-
-                        // Hide uploading section, show success modal
-                        uploadingSection.style.display = 'none';
-                        inputFormSection.style.display = 'block';
-                        successSection.style.display = 'flex';
-
-                    }
-                } catch (e) {
-                    // Security error is expected due to cross-origin restrictions
-                    console.log('Cross-origin response expected:', e);
-
-                    // Since we know the file is actually uploading successfully,
-                    // we can give a more confident message
-                    updateProgress(100);
-
-                    // Get file details for success modal
-                    const department = document.getElementById('department').value;
-                    const subject = document.getElementById('subject').value;
-                    const rollNumber = document.getElementById('rollNumber').value;
-                    const experimentNo = document.getElementById('experimentNo').value;
-                    const file = fileInput.files[0];
-                    const fileExtension = getFileExtension(file.name);
-                    const fileId = form.dataset.fileId || generateFileId(); // Use stored ID or generate new one
-
-                    // Set success modal content
-                    const renamedFileName = `${rollNumber}_${experimentNo}_${subject} [${fileId}]`;
-                    renamedFileElement.textContent = renamedFileName;
-                    fileIdElement.textContent = fileId;
-
-                    // Hide uploading section, show success modal
-                    uploadingSection.style.display = 'none';
-                    inputFormSection.style.display = 'block';
-                    successSection.style.display = 'flex';
-                }
-            });
-
-            // Handle the OK button in success modal
-            okButton.addEventListener('click', function () {
-                // Hide success modal
-                successSection.style.display = 'none';
-
-                // Reset form and show input form
-                form.reset();
-                dropzoneContent.classList.remove('hidden');
-                fileInfo.classList.add('hidden');
-                fileInput.value = '';
-                inputFormSection.style.display = 'block';
-
-                // Re-enable the upload button
-                uploadButton.disabled = false;
-
-                // Clear the stored fileId
-                form.dataset.fileId = '';
-            });
-
-            // Handle the upload button click
-            uploadButton.addEventListener('click', function () {
-                // Validate all fields are filled
-                const department = document.getElementById('department').value;
-                const subject = document.getElementById('subject').value;
-                const rollNumber = document.getElementById('rollNumber').value;
-                const experimentNo = document.getElementById('experimentNo').value;
-
-                if (!department || !subject || !rollNumber || !experimentNo || !fileInput.files.length) {
-                    alert('Please fill all fields and select a file.');
-                    return;
-                }
-
-                // Generate a file ID
-                const fileId = generateFileId();
-                // Store it on the form for later use
-                form.dataset.fileId = fileId;
-
-                // Get file and generate new file name
-                const file = fileInput.files[0];
-                const newFileName = `${rollNumber}_${experimentNo}_${subject} [${fileId}]${getFileExtension(file.name)}`;
-
-                // Set the filename in the hidden field
-                document.getElementById('fileName').value = newFileName;
-                document.getElementById('mimeType').value = file.type;
-
-                // Hide input form, show uploading section
-                inputFormSection.style.display = 'none';
-                uploadingSection.style.display = 'flex';
-
-                // Reset progress
-                updateProgress(0);
-                uploadButton.disabled = true;
-
-                // Read file as base64
-                const reader = new FileReader();
-                reader.onload = function (e) {
-                    // Set the base64 file data
-                    const fileData = e.target.result.split(',')[1]; // Get base64 data
-                    document.getElementById('fileData').value = fileData;
-
-                    // Simulate progress
-                    simulateProgress();
-
-                    // Submit the form
-                    form.submit();
-                };
-
-                reader.readAsDataURL(file);
-            });
-
-            function getFileExtension(filename) {
-                return filename.substring(filename.lastIndexOf('.'));
-            }
-
-            function simulateProgress() {
-                let progress = 0;
-                const progressInterval = setInterval(function () {
-                    progress += 5;
-                    if (progress > 90) {
-                        clearInterval(progressInterval);
-                    }
-
-                    updateProgress(progress);
-                }, 300);
-
-                // Clear the interval after 30 seconds as a safety measure
-                setTimeout(function () {
-                    clearInterval(progressInterval);
-                }, 30000);
-            }
-        });
-    </script>
     <script src="https://cdn.jsdelivr.net/npm/flowbite@3.1.2/dist/flowbite.min.js"></script>
+    <script src="https://unpkg.com/@dotlottie/player-component@latest/dist/dotlottie-player.mjs" type="module"></script>
+    <script src="index.js"></script>
 </body>
 
 </html>
