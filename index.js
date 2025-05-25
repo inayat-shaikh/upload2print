@@ -119,13 +119,13 @@ document.addEventListener("DOMContentLoaded", function () {
       e.stopPropagation();
     });
 
-    // Handle touch events for scrolling within dropdown
-    menu.addEventListener("touchstart", (e) => {
-      e.stopPropagation(); // Prevent touch events from affecting the page
+    // Handle touch events for scrolling within options container
+    optionsContainer.addEventListener("touchstart", (e) => {
+      e.stopPropagation(); // Allow touchstart for scrolling options
     });
 
-    menu.addEventListener("touchmove", (e) => {
-      e.stopPropagation(); // Allow scrolling within dropdown
+    optionsContainer.addEventListener("touchmove", (e) => {
+      e.stopPropagation(); // Allow touchmove for scrolling options
     });
 
     // Close dropdown when clicking outside
@@ -159,11 +159,6 @@ document.addEventListener("DOMContentLoaded", function () {
         options.forEach((opt) => (opt.style.display = ""));
         enablePageScroll();
       });
-    });
-
-    // Prevent touchmove from bubbling up to prevent page scrolling
-    optionsContainer.addEventListener("touchmove", (e) => {
-      e.stopPropagation();
     });
 
     // Return reset function
