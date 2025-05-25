@@ -337,6 +337,20 @@ document.addEventListener("DOMContentLoaded", function () {
       elements.file.input.files = files;
     }
   });
+  // function handleFileSelection(file) {
+  //   if (file) {
+  //     const sizeInKB = file.size / 1024;
+  //     const formattedSize =
+  //       sizeInKB > 1024
+  //         ? `${(sizeInKB / 1024).toFixed(2)} MB`
+  //         : `${sizeInKB.toFixed(2)} KB`;
+
+  //     elements.file.name.textContent = file.name;
+  //     elements.file.size.textContent = formattedSize;
+  //     elements.dropzone.content.classList.add("hidden");
+  //     elements.file.info.classList.remove("hidden");
+  //   }
+  // }
 
   elements.file.input.addEventListener("change", function () {
     if (this.files.length > 0) handleFileSelection(this.files[0]);
@@ -541,6 +555,21 @@ document.addEventListener("DOMContentLoaded", function () {
         modalFileAccessMessage.style.display = "flex";
       }
     }
+    // try {
+    //   const isPublic = await checkPublicAccess(googleDocId);
+    //   if (!isPublic) {
+    //     alert(
+    //       'Your file has been uploaded but set your Google Doc access to "Anyone with the link".'
+    //     );
+    //     modalFileAccessMessage.style.display = "flex";
+    //   }
+    // } catch (error) {
+    //   console.error("Error checking public access:", error);
+    //   alert(
+    //     'Unable to verify if your Google Doc is public. Please ensure it is accessible to "Anyone with the link".'
+    //   );
+    //   modalFileAccessMessage.style.display = "flex";
+    // }
   }
 
   // Function to check public access
