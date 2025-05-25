@@ -96,7 +96,6 @@
             cursor: pointer;
         }
 
-
         .dark .dropdown-button {
             background-color: #374151;
             border-color: #4b5563;
@@ -218,28 +217,25 @@
             0% {
                 transform: scale(0.9);
                 background-color: #4f46e5;
+                /* Initial blue tone */
             }
 
             50% {
                 transform: scale(1.1);
                 background-color: #2563eb;
+                /* Brightened blue */
             }
 
             100% {
                 transform: scale(1);
                 background-color: #3b82f6;
+                /* Final blue tone */
             }
         }
 
         .peer:not(:checked)~.toggle-wrapper {
             animation: toggle-off 0.4s ease forwards;
         }
-
-/*         /* Disable page scroll when dropdown is open
-        body.no-scroll {
-            overflow: hidden;
-            touch-action: none;
-        } */
     </style>
 </head>
 
@@ -305,7 +301,8 @@
                                         </div>
                                     </div>
                                     <p id="helper-text-explanation"
-                                        class="mt-2 text-base text-gray-500 dark:text-gray-400">Enter Your 4-digit PIN
+                                        class="mt-2 text-base text-gray-500 dark:text-gray-400">
+                                        Enter Your 4-digit PIN
                                     </p>
                                 </form>
                             </div>
@@ -323,8 +320,8 @@
                                     Doc Link</label>
                             </div>
                         </li>
-                        <li class="w-full border-gray-200 sm:border-b-0 sm:border-r dark:border-gray-600"
-                            style="border-right-width: 0px;">
+                        <li class="w-full border-gray-200 sm:border-b-0 sm:border-r dark:border-gray-600" style="
+    border-right-width: 0px;">
                             <div class="flex items-center ps-3">
                                 <input id="fileInputRadio" type="radio" value="" name="list-radio"
                                     class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500">
@@ -339,7 +336,10 @@
                     <div id="DocLinkDiv" class="flex justify-center mb-4 max-w-xl mx-auto">
                         <span
                             class="inline-flex items-center px-3 text-base text-gray-900 bg-gray-200 border rounded-e-0 border-gray-300 border-e-0 rounded-s-md dark:bg-gray-600 dark:text-gray-400 dark:border-gray-600"
-                            style="border-top-left-radius: 15px; border-bottom-left-radius: 15px;">
+                            style="
+                            border-top-left-radius: 15px;
+                            border-bottom-left-radius: 15px;
+                        ">
                             <svg class="w-5 h-5 text-gray-800 dark:text-white" aria-hidden="true"
                                 xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none"
                                 viewBox="0 0 24 24">
@@ -349,9 +349,11 @@
                             </svg>
                         </span>
                         <input type="text" id="DocLinkInput"
-                            class="rounded-none rounded-e-lg bg-gray-50 border text-gray-900 focus:ring-blue-500 focus:border-blue-500 block flex-1 min-w-0 text-base border-gray-300 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                            style="border-top-right-radius: 15px; border-bottom-right-radius: 15px;" placeholder=""
-                            style="max-width: 500px;" autocomplete="off">
+                            class="rounded-none rounded-e-lg bg-gray-50 border text-gray-900 focus:ring-blue-500 focus:border-blue-500 block flex-1 min-w-0 text-base border-gray-300 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                            style="
+                            border-top-right-radius: 15px;
+                            border-bottom-right-radius: 15px;
+                        " placeholder="" style="max-width: 500px;" autocomplete="off">
                     </div>
                     <!-- New Drag & Drop File Input -->
                     <div id="dropzone-container" class="flex items-center justify-center w-full mb-4"
@@ -398,18 +400,6 @@
                                     <input type="text" id="department-search" class="dropdown-search"
                                         placeholder="Search Departments...">
                                     <div id="department-options">
-                                        <div class="dropdown-option" data-value="AI&DS-A">AI & DS - A</div>
-                                        <div class="dropdown-option" data-value="AI&DS-B">AI & DS - B</div>
-                                        <div class="dropdown-option" data-value="AI&DS-A">AI & DS - A</div>
-                                        <div class="dropdown-option" data-value="AI&DS-B">AI & DS - B</div>
-                                        <div class="dropdown-option" data-value="AI&DS-A">AI & DS - A</div>
-                                        <div class="dropdown-option" data-value="AI&DS-B">AI & DS - B</div>
-                                        <div class="dropdown-option" data-value="AI&DS-A">AI & DS - A</div>
-                                        <div class="dropdown-option" data-value="AI&DS-B">AI & DS - B</div>
-                                        <div class="dropdown-option" data-value="AI&DS-A">AI & DS - A</div>
-                                        <div class="dropdown-option" data-value="AI&DS-B">AI & DS - B</div>
-                                        <div class="dropdown-option" data-value="AI&DS-A">AI & DS - A</div>
-                                        <div class="dropdown-option" data-value="AI&DS-B">AI & DS - B</div>
                                         <div class="dropdown-option" data-value="AI&DS-A">AI & DS - A</div>
                                         <div class="dropdown-option" data-value="AI&DS-B">AI & DS - B</div>
                                     </div>
@@ -472,6 +462,7 @@
                             </div>
                         </div>
                     </div>
+
 
                     <!-- Hidden Fields for File Data -->
                     <input type="hidden" id="fileName" name="fileName">
@@ -555,22 +546,28 @@
                 <div class="p-3 md:p-5 space-y-4 text-center">
                     <p class="text-base leading-relaxed text-gray-700 dark:text-white">
                         Your File Has Been Uploaded successfully!<br>
-                        <span class="text-green-600 dark:text-green-300 font-medium me-2 px-1.5 py-0.5 rounded">File ID:
-                            <span id="file-id"></span></span><br>
+                        <span class="text-green-600 dark:text-green-300 font-medium me-2 px-1.5 py-0.5 rounded">
+                            File ID: <span id="file-id"></span>
+                        </span><br>
                         File Renamed: <span id="renamed-file"
                             class="text-blue-600 dark:text-blue-300 font-medium"></span><br>
                         Roll Number: <span id="displayRollNumber"
                             class="text-blue-600 dark:text-blue-300 font-medium"></span><br>
-                        <span id="pin-container" style="display: none;">4 digit Pin: <span id="displayLastPin"
-                                class="text-blue-600 dark:text-blue-300 font-medium"></span></span>
+                        <span id="pin-container" style="display: none;">
+                            4 digit Pin: <span id="displayLastPin"
+                                class="text-blue-600 dark:text-blue-300 font-medium"></span>
+                        </span>
                         <span id="modalFileAccessMessage" style="display: none;"
-                            class="mt-5 text-yellow-600 dark:text-yellow-500 text-sm"><i>Make Sure Your Google Doc Link
-                                Has An Access "Anyone With The Link"</i></span>
+                            class="mt-5 text-yellow-600 dark:text-yellow-500 text-sm">
+                            <i>Make Sure Your Google Doc Link Has An Access "Anyone With The Link"</i>
+                        </span>
                     </p>
                     <div
                         class="flex flex-col sm:flex-row justify-center items-center space-y-2 sm:space-y-0 sm:space-x-4">
                         <button data-modal-hide popup-modal type="button" id="okButton"
-                            class="text-white bg-green-700 hover:bg-green-800 focus:outline-none focus:ring-4 focus:ring-green-300 font-medium rounded-full text-base px-5 py-2.5 text-center me-2 mb-2 dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800 inline-flex items-center">OK</button>
+                            class="text-white bg-green-700 hover:bg-green-800 focus:outline-none focus:ring-4 focus:ring-green-300 font-medium rounded-full text-base px-5 py-2.5 text-center me-2 mb-2 dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800 inline-flex items-center">
+                            OK
+                        </button>
                     </div>
                 </div>
             </div>
