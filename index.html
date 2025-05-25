@@ -114,7 +114,29 @@
             padding: 0.5rem;
         }
 
+        .exp-dropdown {
+            position: absolute;
+            bottom: 100%;
+            left: 0;
+            right: 0;
+            z-index: 10;
+            background-color: #fff;
+            border: 1px solid #d1d5db;
+            border-radius: 0.375rem;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            max-height: 200px;
+            overflow-y: auto;
+            padding: 0.5rem;
+            margin-bottom: 4px;
+        }
+
         .dark .dropdown-menu {
+            background-color: #1f2937;
+            border-color: #4b5563;
+            color: #fff;
+        }
+
+        .dark .exp-dropdown {
             background-color: #1f2937;
             border-color: #4b5563;
             color: #fff;
@@ -127,7 +149,7 @@
             border: 1px solid #d1d5db;
             border-radius: 0.375rem;
             margin-bottom: 0.5rem;
-            background: url('data:image/svg+xml;utf8,<svg class="w-4 h-4 text-gray-500" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20"><path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"/></svg>') no-repeat 0.5rem center;
+            background: url('data:image/svg+xml;utf8,<svg class="w-4 h-4 text-blue-500 dark:text-blue-700" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20"><path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"/></svg>') no-repeat 0.5rem center;
             background-size: 1rem;
         }
 
@@ -135,7 +157,7 @@
             background-color: #374151;
             border-color: #4b5563;
             color: #fff;
-            background-image: url('data:image/svg+xml;utf8,<svg class="w-4 h-4 text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20"><path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"/></svg>');
+            background-image: url('data:image/svg+xml;utf8,<svg class="w-4 h-4 text-blue-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20"><path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"/></svg>');
         }
 
         .dropdown-option {
@@ -209,6 +231,134 @@
             <form id="uploadForm" enctype="multipart/form-data" target="hidden_iframe" class="w-full mx-auto"
                 style="max-width: 85%;">
                 <div class="relative">
+                    <!-- Centered PIN container -->
+                    <div class="pin-container flex justify-center">
+                        <div>
+                            <label class="mb-5 inline-flex items-center cursor-pointer">
+                                <input type="checkbox" id="pinToggle" class="sr-only peer">
+                                <div
+                                    class="toggle-wrapper relative w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-transform after:duration-300 dark:border-gray-600 peer-checked:bg-blue-600 dark:peer-checked:bg-blue-600">
+                                </div>
+                                <span class="ms-3 text-base font-medium text-gray-900 dark:text-gray-300">Set Pin To
+                                    Open File?</span>
+                            </label>
+                            <div id="pinInput" class="pin-input mb-5" style="display: none;">
+                                <form id="pinForm" class="max-w-sm mx-auto">
+                                    <div class="flex mb-2 space-x-4 rtl:space-x-reverse">
+                                        <div>
+                                            <label for="code-1" class="sr-only">First code</label>
+                                            <input type="text" maxlength="1" id="code-1"
+                                                class="pininputbox block w-12 h-12 py-3 text-xl font-bold text-center text-gray-900 bg-white border border-gray-300 rounded-lg focus:ring-primary-500 focus:border-primary-500 transition-transform duration-200 scale-100 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                                                required autocomplete="off" />
+                                        </div>
+                                        <div>
+                                            <label for="code-2" class="sr-only">Second code</label>
+                                            <input type="text" maxlength="1" id="code-2"
+                                                class="pininputbox block w-12 h-12 py-3 text-xl font-bold text-center text-gray-900 bg-white border border-gray-300 rounded-lg focus:ring-primary-500 focus:border-primary-500 transition-transform duration-200 scale-100 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                                                required autocomplete="off" />
+                                        </div>
+                                        <div>
+                                            <label for="code-3" class="sr-only">Third code</label>
+                                            <input type="text" maxlength="1" id="code-3"
+                                                class="pininputbox block w-12 h-12 py-3 text-xl font-bold text-center text-gray-900 bg-white border border-gray-300 rounded-lg focus:ring-primary-500 focus:border-primary-500 transition-transform duration-200 scale-100 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                                                required autocomplete="off" />
+                                        </div>
+                                        <div>
+                                            <label for="code-4" class="sr-only">Fourth code</label>
+                                            <input type="text" maxlength="1" id="code-4"
+                                                class="pininputbox block w-12 h-12 py-3 text-xl font-bold text-center text-gray-900 bg-white border border-gray-300 rounded-lg focus:ring-primary-500 focus:border-primary-500 transition-transform duration-200 scale-100 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                                                required autocomplete="off" />
+                                        </div>
+                                    </div>
+                                    <p id="helper-text-explanation"
+                                        class="mt-2 text-base text-gray-500 dark:text-gray-400">
+                                        Enter Your 4-digit PIN
+                                    </p>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+
+                    <ul class="mb-3 items-center text-sm font-medium text-gray-900 bg-white border border-gray-200 rounded-lg sm:flex dark:bg-gray-700 dark:border-gray-600 dark:text-white max-w-xs mx-auto"
+                        style="border-radius: 15px;">
+                        <li class="w-full border-b border-gray-200 sm:border-b-0 sm:border-r dark:border-gray-600">
+                            <div class="flex items-center ps-3">
+                                <input checked id="DocLink" type="radio" value="" name="list-radio"
+                                    class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500">
+                                <label for="DocLink"
+                                    class="w-full py-3 ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">Google
+                                    Doc Link</label>
+                            </div>
+                        </li>
+                        <li class="w-full border-gray-200 sm:border-b-0 sm:border-r dark:border-gray-600" style="
+    border-right-width: 0px;">
+                            <div class="flex items-center ps-3">
+                                <input id="fileInputRadio" type="radio" value="" name="list-radio"
+                                    class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500">
+                                <label for="fileInputRadio"
+                                    class="w-full py-3 ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">File
+                                    Input</label>
+                            </div>
+                        </li>
+                    </ul>
+
+                    <!--------Document Link------------>
+                    <div id="DocLinkDiv" class="flex justify-center mb-4 max-w-xl mx-auto">
+                        <span
+                            class="inline-flex items-center px-3 text-base text-gray-900 bg-gray-200 border rounded-e-0 border-gray-300 border-e-0 rounded-s-md dark:bg-gray-600 dark:text-gray-400 dark:border-gray-600"
+                            style="
+                            border-top-left-radius: 15px;
+                            border-bottom-left-radius: 15px;
+                        ">
+                            <svg class="w-5 h-5 text-gray-800 dark:text-white" aria-hidden="true"
+                                xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none"
+                                viewBox="0 0 24 24">
+                                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                                    stroke-width="2"
+                                    d="M13.213 9.787a3.391 3.391 0 0 0-4.795 0l-3.425 3.426a3.39 3.39 0 0 0 4.795 4.794l.321-.304m-.321-4.49a3.39 3.39 0 0 0 4.795 0l3.424-3.426a3.39 3.39 0 0 0-4.794-4.795l-1.028.961" />
+                            </svg>
+                        </span>
+                        <input type="text" id="DocLinkInput"
+                            class="rounded-none rounded-e-lg bg-gray-50 border text-gray-900 focus:ring-blue-500 focus:border-blue-500 block flex-1 min-w-0 text-base border-gray-300 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                            style="
+                            border-top-right-radius: 15px;
+                            border-bottom-right-radius: 15px;
+                        " placeholder="" style="max-width: 500px;" autocomplete="off">
+                    </div>
+                    <!-- New Drag & Drop File Input -->
+                    <div id="dropzone-container" class="flex items-center justify-center w-full mb-4"
+                        style="display: none;">
+                        <label for="fileInputElement"
+                            class="flex flex-col items-center justify-center w-full h-64 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 dark:hover:bg-gray-800 dark:bg-gray-700 hover:bg-gray-100 dark:border-gray-600 dark:hover:border-gray-500 dark:hover:bg-gray-600">
+                            <div id="dropzone-content" class="flex flex-col items-center justify-center pt-5 pb-6">
+                                <svg class="w-8 h-8 mb-4 text-gray-500 dark:text-gray-400" aria-hidden="true"
+                                    xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 16">
+                                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                                        stroke-width="2"
+                                        d="M13 13h3a3 3 0 0 0 0-6h-.025A5.56 5.56 0 0 0 16 6.5 5.5 5.5 0 0 0 5.207 5.021C5.137 5.017 5.071 5 5 5a4 4 0 0 0 0 8h2.167M10 15V6m0 0L8 8m2-2 2 2" />
+                                </svg>
+                                <p class="mb-2 text-sm text-gray-500 dark:text-gray-400"><span
+                                        class="font-semibold">Click to upload</span> or drag and drop</p>
+                                <p class="text-xs text-gray-500 dark:text-gray-400">DOC, DOCX, or PDF only</p>
+                            </div>
+                            <div id="file-info" class="hidden flex items-center justify-center w-full p-4">
+                                <div class="flex flex-col items-center">
+                                    <svg class="w-8 h-8 mb-2 text-blue-500" aria-hidden="true"
+                                        xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
+                                        <path
+                                            d="M4.5 11.5a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-.5.5H5a.5.5 0 0 1-.5-.5v-2z" />
+                                        <path
+                                            d="M3 7.5a.5.5 0 0 1 .5-.5h13a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-.5.5h-13a.5.5 0 0 1-.5-.5v-2z" />
+                                    </svg>
+                                    <p id="file-name" class="text-sm font-semibold text-gray-900 dark:text-white"></p>
+                                    <p id="file-size" class="text-xs text-gray-500 dark:text-gray-400"></p>
+                                </div>
+                            </div>
+                            <input type="file" name="fileInput" id="fileInputElement" class="hidden"
+                                accept=".doc,.docx,.pdf" />
+                        </label>
+                    </div>
+
                     <div class="grid gap-6 mb-6 md:grid-cols-2">
                         <div>
                             <label for="department"
@@ -261,7 +411,7 @@
                             <div class="custom-dropdown">
                                 <button type="button" id="experimentNo-button" class="dropdown-button">Select Experiment
                                     Number</button>
-                                <div id="experimentNo-menu" class="dropdown-menu hidden">
+                                <div id="experimentNo-menu" class="exp-dropdown hidden">
                                     <input type="text" id="experiment-search" class="dropdown-search"
                                         placeholder="Search Experiments...">
                                     <div id="experimentNo-options">
@@ -282,125 +432,7 @@
                             </div>
                         </div>
                     </div>
-                    <!-- Centered PIN container -->
-                    <div class="pin-container flex justify-center">
-                        <div>
-                            <label class="mb-5 inline-flex items-center cursor-pointer">
-                                <input type="checkbox" id="pinToggle" class="sr-only peer">
-                                <div
-                                    class="toggle-wrapper relative w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-transform after:duration-300 dark:border-gray-600 peer-checked:bg-blue-600 dark:peer-checked:bg-blue-600">
-                                </div>
-                                <span class="ms-3 text-base font-medium text-gray-900 dark:text-gray-300">Set Pin To
-                                    Open File?</span>
-                            </label>
-                            <div id="pinInput" class="pin-input mb-5" style="display: none;">
-                                <form id="pinForm" class="max-w-sm mx-auto">
-                                    <div class="flex mb-2 space-x-4 rtl:space-x-reverse">
-                                        <div>
-                                            <label for="code-1" class="sr-only">First code</label>
-                                            <input type="text" maxlength="1" id="code-1"
-                                                class="pininputbox block w-12 h-12 py-3 text-xl font-bold text-center text-gray-900 bg-white border border-gray-300 rounded-lg focus:ring-primary-500 focus:border-primary-500 transition-transform duration-200 scale-100 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                                                required autocomplete="off" />
-                                        </div>
-                                        <div>
-                                            <label for="code-2" class="sr-only">Second code</label>
-                                            <input type="text" maxlength="1" id="code-2"
-                                                class="pininputbox block w-12 h-12 py-3 text-xl font-bold text-center text-gray-900 bg-white border border-gray-300 rounded-lg focus:ring-primary-500 focus:border-primary-500 transition-transform duration-200 scale-100 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                                                required autocomplete="off" />
-                                        </div>
-                                        <div>
-                                            <label for="code-3" class="sr-only">Third code</label>
-                                            <input type="text" maxlength="1" id="code-3"
-                                                class="pininputbox block w-12 h-12 py-3 text-xl font-bold text-center text-gray-900 bg-white border border-gray-300 rounded-lg focus:ring-primary-500 focus:border-primary-500 transition-transform duration-200 scale-100 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                                                required autocomplete="off" />
-                                        </div>
-                                        <div>
-                                            <label for="code-4" class="sr-only">Fourth code</label>
-                                            <input type="text" maxlength="1" id="code-4"
-                                                class="pininputbox block w-12 h-12 py-3 text-xl font-bold text-center text-gray-900 bg-white border border-gray-300 rounded-lg focus:ring-primary-500 focus:border-primary-500 transition-transform duration-200 scale-100 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                                                required autocomplete="off" />
-                                        </div>
-                                    </div>
-                                    <p id="helper-text-explanation"
-                                        class="mt-2 text-base text-gray-500 dark:text-gray-400">
-                                        Enter Your 4-digit PIN
-                                    </p>
-                                </form>
-                            </div>
-                        </div>
-                    </div>
 
-                    <ul
-                        class="mb-3 items-center text-sm font-medium text-gray-900 bg-white border border-gray-200 rounded-lg sm:flex dark:bg-gray-700 dark:border-gray-600 dark:text-white">
-                        <li class="w-full border-b border-gray-200 sm:border-b-0 sm:border-r dark:border-gray-600">
-                            <div class="flex items-center ps-3">
-                                <input checked id="DocLink" type="radio" value="" name="list-radio"
-                                    class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500">
-                                <label for="DocLink"
-                                    class="w-full py-3 ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">Google
-                                    Doc Link</label>
-                            </div>
-                        </li>
-                        <li class="w-full border-b border-gray-200 sm:border-b-0 sm:border-r dark:border-gray-600">
-                            <div class="flex items-center ps-3">
-                                <input id="fileInputRadio" type="radio" value="" name="list-radio"
-                                    class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500">
-                                <label for="fileInputRadio"
-                                    class="w-full py-3 ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">File
-                                    Input</label>
-                            </div>
-                        </li>
-                    </ul>
-
-                    <!--------Document Link------------>
-                    <div id="DocLinkDiv" class="flex justify-center mb-4">
-                        <span
-                            class="inline-flex items-center px-3 text-base text-gray-900 bg-gray-200 border rounded-e-0 border-gray-300 border-e-0 rounded-s-md dark:bg-gray-600 dark:text-gray-400 dark:border-gray-600">
-                            <svg class="w-5 h-5 text-gray-800 dark:text-white" aria-hidden="true"
-                                xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none"
-                                viewBox="0 0 24 24">
-                                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
-                                    stroke-width="2"
-                                    d="M13.213 9.787a3.391 3.391 0 0 0-4.795 0l-3.425 3.426a3.39 3.39 0 0 0 4.795 4.794l.321-.304m-.321-4.49a3.39 3.39 0 0 0 4.795 0l3.424-3.426a3.39 3.39 0 0 0-4.794-4.795l-1.028.961" />
-                            </svg>
-                        </span>
-                        <input type="text" id="DocLinkInput"
-                            class="rounded-none rounded-e-lg bg-gray-50 border text-gray-900 focus:ring-blue-500 focus:border-blue-500 block flex-1 min-w-0 text-base border-gray-300 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                            placeholder="" style="max-width: 500px;" autocomplete="off">
-                    </div>
-                    <!-- New Drag & Drop File Input -->
-                    <div id="dropzone-container" class="flex items-center justify-center w-full mb-4"
-                        style="display: none;">
-                        <label for="fileInputElement"
-                            class="flex flex-col items-center justify-center w-full h-64 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 dark:hover:bg-gray-800 dark:bg-gray-700 hover:bg-gray-100 dark:border-gray-600 dark:hover:border-gray-500 dark:hover:bg-gray-600">
-                            <div id="dropzone-content" class="flex flex-col items-center justify-center pt-5 pb-6">
-                                <svg class="w-8 h-8 mb-4 text-gray-500 dark:text-gray-400" aria-hidden="true"
-                                    xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 16">
-                                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
-                                        stroke-width="2"
-                                        d="M13 13h3a3 3 0 0 0 0-6h-.025A5.56 5.56 0 0 0 16 6.5 5.5 5.5 0 0 0 5.207 5.021C5.137 5.017 5.071 5 5 5a4 4 0 0 0 0 8h2.167M10 15V6m0 0L8 8m2-2 2 2" />
-                                </svg>
-                                <p class="mb-2 text-sm text-gray-500 dark:text-gray-400"><span
-                                        class="font-semibold">Click to upload</span> or drag and drop</p>
-                                <p class="text-xs text-gray-500 dark:text-gray-400">DOC, DOCX, or PDF only</p>
-                            </div>
-                            <div id="file-info" class="hidden flex items-center justify-center w-full p-4">
-                                <div class="flex flex-col items-center">
-                                    <svg class="w-8 h-8 mb-2 text-blue-500" aria-hidden="true"
-                                        xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
-                                        <path
-                                            d="M4.5 11.5a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-.5.5H5a.5.5 0 0 1-.5-.5v-2z" />
-                                        <path
-                                            d="M3 7.5a.5.5 0 0 1 .5-.5h13a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-.5.5h-13a.5.5 0 0 1-.5-.5v-2z" />
-                                    </svg>
-                                    <p id="file-name" class="text-sm font-semibold text-gray-900 dark:text-white"></p>
-                                    <p id="file-size" class="text-xs text-gray-500 dark:text-gray-400"></p>
-                                </div>
-                            </div>
-                            <input type="file" name="fileInput" id="fileInputElement" class="hidden"
-                                accept=".doc,.docx,.pdf" />
-                        </label>
-                    </div>
 
                     <!-- Hidden Fields for File Data -->
                     <input type="hidden" id="fileName" name="fileName">
@@ -409,8 +441,19 @@
                     <input type="hidden" id="generatedFileId" name="generatedFileId">
                     <input type="hidden" name="rootFolderId" value="1xfnB19Nvk0am-REJr-q9wqLoTAU3S55N">
 
-                    <button type="button" id="uploadButton"
-                        class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Submit</button>
+                    <div class="flex justify-center">
+                        <button type="button" id="uploadButton"
+                            style="background-color: rgb(20 36 76);box-shadow: inset 0px 0px 32px 0 rgb(0 104 213);"
+                            class="text-white bg-white-700 hover:bg-white-800 focus:outline-none focus:ring-4 focus:ring-blue-300 font-medium rounded-full text-sm px-5 py-2.5 text-center me-2 mb-2 dark:bg-white-700 dark:hover:bg-white-800 dark:focus:ring-blue-800 flex items-center justify-center sm:w-auto cursor-pointer">Upload<svg
+                                style="margin-left: 5px;" class="text-blue-600 dark:text-blue-300" aria-hidden="true"
+                                xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="none"
+                                viewBox="0 0 24 24">
+                                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                                    stroke-width="2"
+                                    d="M15 17h3a3 3 0 0 0 0-6h-.025a5.56 5.56 0 0 0 .025-.5A5.5 5.5 0 0 0 7.207 9.021C7.137 9.017 7.071 9 7 9a4 4 0 1 0 0 8h2.167M12 19v-9m0 0-2 2m2-2 2 2">
+                                </path>
+                            </svg></button>
+                    </div>
                 </div>
             </form>
         </div>
