@@ -68,6 +68,9 @@ document.addEventListener("DOMContentLoaded", function () {
   elements.progress.circle.setAttribute("stroke-dasharray", CIRCUMFERENCE);
   elements.progress.circle.setAttribute("stroke-dashoffset", CIRCUMFERENCE);
 
+  // Array to store all dropdown instances
+  const dropdownInstances = [];
+
   // Function to setup custom dropdown with search
   function setupCustomDropdown(
     buttonId,
@@ -84,20 +87,30 @@ document.addEventListener("DOMContentLoaded", function () {
     const hiddenInput = document.getElementById(hiddenInputId);
     const options = optionsContainer.querySelectorAll(".dropdown-option");
 
-    // Function to disable page scrolling
-    function disablePageScroll() {
-      document.body.classList.add("no-scroll");
-    }
+    // Add this dropdown to the instances array
+    const dropdownInstance = { menu };
+    dropdownInstances.push(dropdownInstance);
 
-    // Function to enable page scrolling
-    function enablePageScroll() {
-      document.body.classList.remove("no-scroll");
+    // Function to close all other dropdowns
+    function closeOtherDropdowns(currentMenuId) {
+      dropdownInstances.forEach((instance) => {
+        if (
+          instance.menu.id !== currentMenuId &&
+          !instance.menu.classList.contains("hidden")
+        ) {
+          instance.menu.classList.add("hidden");
+        }
+      });
     }
 
     // Toggle dropdown visibility and scroll to ensure visibility
     button.addEventListener("click", (e) => {
       e.stopPropagation(); // Prevent event bubbling
       const isOpen = !menu.classList.contains("hidden");
+      if (!isOpen) {
+        // Close all other dropdowns before opening this one
+        closeOtherDropdowns(menuId);
+      }
       menu.classList.toggle("hidden");
       if (!menu.classList.contains("hidden")) {
         search.focus();
@@ -107,10 +120,6 @@ document.addEventListener("DOMContentLoaded", function () {
           block: "nearest", // Align to nearest edge to avoid unnecessary scrolling
           inline: "nearest",
         });
-        // Delay disabling scroll to allow scrollIntoView to complete
-        setTimeout(disablePageScroll, 300); // Adjust delay if needed
-      } else {
-        enablePageScroll();
       }
     });
 
@@ -132,7 +141,6 @@ document.addEventListener("DOMContentLoaded", function () {
     document.addEventListener("click", (e) => {
       if (!button.contains(e.target) && !menu.contains(e.target)) {
         menu.classList.add("hidden");
-        enablePageScroll();
       }
     });
 
@@ -157,7 +165,6 @@ document.addEventListener("DOMContentLoaded", function () {
         menu.classList.add("hidden");
         search.value = "";
         options.forEach((opt) => (opt.style.display = ""));
-        enablePageScroll();
       });
     });
 
@@ -168,7 +175,6 @@ document.addEventListener("DOMContentLoaded", function () {
       search.value = "";
       options.forEach((opt) => (opt.style.display = ""));
       menu.classList.add("hidden");
-      enablePageScroll();
     };
   }
 
